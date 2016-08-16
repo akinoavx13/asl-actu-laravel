@@ -11,10 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\ActualityController;
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+Route::group(['middleware' => ['auth']], function () use ($router)
+{
+    ActualityController::routes($router);
+});

@@ -11,7 +11,7 @@
             </button>
 
             <!-- Branding Image -->
-            <a class="navbar-brand" href="{{ url('/') }}">
+            <a class="navbar-brand" href="{{ route('actuality.index') }}">
                 Actu ASLectra
             </a>
         </div>
@@ -19,7 +19,7 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <li><a href="{{ url('/home') }}">Home</a></li>
+                <li><a href="{{ route('actuality.create') }}">Ecrire une actualité</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
