@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actuality;
+use App\Like;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -46,6 +47,11 @@ class ActualityController extends Controller
         $router->post('actuality/comment/{actuality_id}', [
             'uses' => 'ActualityController@comment',
             'as' => 'actuality.comment',
+        ]);
+
+        $router->get('actuality/like/{actuality_id}', [
+            'uses' => 'ActualityController@like',
+            'as' => 'actuality.like',
         ]);
     }
 
@@ -141,5 +147,23 @@ class ActualityController extends Controller
         ]);
 
         return redirect()->route('actuality.index')->with('success', 'Commentaire posté');
+    }
+
+    public function like($actuality_id)
+    {
+
+        $actualityLike = Like::where('user_id', Auth::user()->id)
+            ->where('actuality_id', $actuality_id)
+            ->first();
+
+        if ($actualityLike == null) {
+            Like::create([
+                'user_id' => Auth::user()->id,
+                'actuality_id' => $actuality_id,
+            ]);
+            return redirect()->route('actuality.index')->with('success', 'Vous aimez l\'actualité');
+        }
+
+        return redirect()->route('actuality.index')->with('error', 'Vous aimez déjà l\'actualité');
     }
 }

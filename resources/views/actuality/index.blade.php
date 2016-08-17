@@ -66,13 +66,13 @@
 
                             {!! Form::open(['route' => ['actuality.comment', $actuality->id], 'class' => 'form-horizontal']) !!}
                             <div class="row">
-                                <div class="col-md-1">
-                                    <a href="#" style="text-decoration: none;">
+                                <div class="col-md-2">
+                                    <a href="{{ route('actuality.like', $actuality->id) }}" style="text-decoration: none;">
                                         <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                                        J'aime
+                                        {{ count($actuality->likes) }} J'aime
                                     </a>
                                 </div>
-                                <div class="col-md-11">
+                                <div class="col-md-10">
                                     <a href="#" onclick="$(this).closest('form').submit()" style="text-decoration: none;">
                                         <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
                                         Commenter
