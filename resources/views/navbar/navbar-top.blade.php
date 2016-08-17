@@ -18,10 +18,12 @@
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
-            <ul class="nav navbar-nav">
-                <li><a href="{{ route('actuality.create') }}">Ecrire une actualité</a></li>
-            </ul>
-
+            @if(!Auth::guest())
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ route('actuality.create') }}">Ecrire une actualité</a></li>
+                    <li><a href="{{ route('preference.create') }}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Préférences</a></li>
+                </ul>
+            @endif
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->

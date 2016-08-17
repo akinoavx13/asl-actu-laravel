@@ -22,6 +22,9 @@ class CreateActualitiesTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
+            $table->integer('actuality_id')->unsigned()->index()->nullable();
+            $table->foreign('actuality_id')->references('id')->on('actualities')->onDelete('cascade')->onUpdate('cascade');
+
             $table->text('message');
         });
     }

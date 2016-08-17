@@ -12,10 +12,16 @@
 */
 
 use App\Http\Controllers\ActualityController;
+use App\Http\Controllers\PreferenceController;
 
 Route::auth();
 
 Route::group(['middleware' => ['auth']], function () use ($router)
 {
     ActualityController::routes($router);
+});
+
+Route::group(['prefix' => 'preferences', 'middleware' => ['auth']], function () use ($router)
+{
+    PreferenceController::routes($router);
 });
