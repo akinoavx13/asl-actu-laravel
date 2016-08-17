@@ -29,4 +29,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Preference');
     }
+
+    public function actualities()
+    {
+        return $this->hasMany('App\Actuality');
+    }
 }

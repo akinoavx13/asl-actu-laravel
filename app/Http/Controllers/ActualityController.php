@@ -26,6 +26,8 @@ class ActualityController extends Controller
     {
         $router->pattern('category', '[a-z_5]+');
 
+        $router->pattern('actuality_id', '[0-9]+');
+
         $router->get('{category?}', [
             'uses' => 'ActualityController@index',
             'as' => 'actuality.index',
@@ -40,6 +42,11 @@ class ActualityController extends Controller
             'uses' => 'ActualityController@store',
             'as' => 'actuality.store',
         ]);
+
+        $router->post('actuality/comment/{actuality_id}', [
+            'uses' => 'ActualityController@comment',
+            'as' => 'actuality.comment',
+        ]);
     }
 
     public function index($category = null)
@@ -50,6 +57,7 @@ class ActualityController extends Controller
         $preference = $user->preference;
 
         $numberOfActualitiesByCategories = Actuality::select('actualities.category', DB::raw('count(*) as total'))
+            ->whereNull('actualities.actuality_id')
             ->groupBy('actualities.category')
             ->get()
             ->keyBy('category')
@@ -70,20 +78,22 @@ class ActualityController extends Controller
 
         if ($category != null) {
             if (in_array($category, ['general', 'athletics', 'badminton', 'basketball', 'football', 'gym', 'yoga_cestas', 'ball', 'soccer5', 'tennis', 'volleyball', 'yoga_chalgrin'])) {
-                $actualities = Actuality::select('actualities.message', 'actualities.category', 'actualities.created_at', 'users.name')
+                $actualities = Actuality::select('actualities.message', 'actualities.category', 'actualities.created_at', 'actualities.id', 'users.name')
                     ->join('users', 'users.id', '=', 'actualities.user_id')
+                    ->whereNull('actualities.actuality_id')
                     ->where('category', $category)
                     ->get();
             } else {
                 abort(404);
             }
         } else {
-            $actualities = Actuality::select('actualities.message', 'actualities.category', 'actualities.created_at', 'users.name')
+            $actualities = Actuality::select('actualities.message', 'actualities.category', 'actualities.created_at', 'actualities.id', 'users.name')
                 ->join('users', 'users.id', '=', 'actualities.user_id')
+                ->whereNull('actualities.actuality_id')
                 ->orderBy('actualities.created_at', 'desc')
                 ->get();
 
-            $actualities = $actualities->filter(function ($value, $key) use ($preference){
+            $actualities = $actualities->filter(function ($value, $key) use ($preference) {
                 $userPreference = $preference->toArray();
                 return $userPreference[$value->category] == 1;
             });
@@ -113,5 +123,23 @@ class ActualityController extends Controller
         ]);
 
         return redirect()->route('actuality.index')->with('success', 'Actualité créée');
+    }
+
+    public function comment(Request $request, $actuality_id)
+    {
+        $this->validate($request, [
+            'content' => 'required',
+        ]);
+
+        $actuality = Actuality::findOrFail($actuality_id);
+
+        Actuality::create([
+            'category' => $actuality->category,
+            'user_id' => Auth::user()->id,
+            'actuality_id' => $actuality_id,
+            'message' => $request->get('content'),
+        ]);
+
+        return redirect()->route('actuality.index')->with('success', 'Commentaire posté');
     }
 }

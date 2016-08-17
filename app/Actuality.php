@@ -12,7 +12,7 @@ class Actuality extends Model
      * @var array
      */
     protected $fillable = [
-        'category', 'message', 'user_id'
+        'category', 'message', 'user_id', 'actuality_id'
     ];
 
     /**
@@ -23,4 +23,20 @@ class Actuality extends Model
     protected $hidden = [
         'user_id',
     ];
+
+    public function comments()
+    {
+        return $this->hasMany('App\Actuality');
+    }
+
+    public function post()
+    {
+        return $this->belongsTo('App\Actuality');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
 }
