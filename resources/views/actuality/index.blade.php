@@ -24,7 +24,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <span style="font-size: 20px;">{{ ucfirst($actuality->name) }}</span>
+                                    <span style="font-size: 20px;">{{ ucfirst($actuality->forname) }} {{ ucfirst($actuality->name) }}</span>
                                     dans la section
                                     <span style="font-weight: bold;">
                                     @if($actuality->category == 'general')

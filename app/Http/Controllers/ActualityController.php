@@ -83,7 +83,7 @@ class ActualityController extends Controller
 
         if ($category != null) {
             if (in_array($category, ['general', 'athletics', 'badminton', 'basketball', 'football', 'gym', 'yoga_cestas', 'ball', 'soccer5', 'tennis', 'volleyball', 'yoga_chalgrin'])) {
-                $actualities = Actuality::select('actualities.message', 'actualities.category', 'actualities.created_at', 'actualities.id', 'users.name')
+                $actualities = Actuality::select('actualities.message', 'actualities.category', 'actualities.created_at', 'actualities.id', 'users.name', 'users.forname')
                     ->join('users', 'users.id', '=', 'actualities.user_id')
                     ->whereNull('actualities.actuality_id')
                     ->where('category', $category)
@@ -92,16 +92,18 @@ class ActualityController extends Controller
                 abort(404);
             }
         } else {
-            $actualities = Actuality::select('actualities.message', 'actualities.category', 'actualities.created_at', 'actualities.id', 'users.name')
+            $actualities = Actuality::select('actualities.message', 'actualities.category', 'actualities.created_at', 'actualities.id', 'users.name', 'users.forname')
                 ->join('users', 'users.id', '=', 'actualities.user_id')
                 ->whereNull('actualities.actuality_id')
                 ->orderBy('actualities.created_at', 'desc')
                 ->get();
 
-            $actualities = $actualities->filter(function ($value, $key) use ($preference) {
-                $userPreference = $preference->toArray();
-                return $userPreference[$value->category] == 1;
-            });
+            if ($preference != null) {
+                $actualities = $actualities->filter(function ($value, $key) use ($preference) {
+                    $userPreference = $preference->toArray();
+                    return $userPreference[$value->category] == 1;
+                });
+            }
         }
 
         return view('actuality.index', compact('actualities', 'actualitiesCount', 'preference'));
