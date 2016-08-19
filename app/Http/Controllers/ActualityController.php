@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actuality;
+use App\Category;
 use App\Like;
 use App\User;
 use Illuminate\Http\Request;
@@ -112,8 +113,9 @@ class ActualityController extends Controller
     public function create()
     {
         $actuality = new Actuality();
+        $categories = Category::lists('name', 'id');
 
-        return view('actuality.form', compact('actuality'));
+        return view('actuality.form', compact('actuality', 'categories'));
     }
 
     public function store(Request $request)

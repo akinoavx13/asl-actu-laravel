@@ -12,7 +12,8 @@
             </button>
 
             <!-- Branding Image -->
-            <a class="navbar-brand" href="{{ route('actuality.index') }}" style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 36px;">
+            <a class="navbar-brand" href="{{ route('actuality.index') }}"
+               style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 36px;">
                 ASLectra
             </a>
         </div>
@@ -22,31 +23,45 @@
             @if(!Auth::guest())
                 <ul class="nav navbar-nav">
                     <li style="{{ Request::is('actuality/create') ? 'background: #0273A3;' : '' }} ">
-                        <a href="{{ route('actuality.create') }}" style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
+                        <a href="{{ route('actuality.create') }}"
+                           style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
                             Ecrire une actualité
                         </a>
                     </li>
+                    @if(Auth::user()->role == 'admin')
+                        <li style="{{ Request::is('categories/index') ? 'background: #0273A3;' : '' }} ">
+                            <a href="{{ route('category.index') }}"
+                               style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
+                                Catégories
+                            </a>
+                        </li>
+                    @endif
                     <li style="{{ Request::is('preferences/create') ? 'background: #0273A3;' : '' }} ">
-                        <a href="{{ route('preference.create') }}" style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
+                        <a href="{{ route('preference.create') }}"
+                           style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
                             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                             Préférences
                         </a>
                     </li>
                 </ul>
-        @endif
+            @endif
         <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
                 @if (Auth::guest())
                     <li>
-                        <a href="{{ url('/login') }}" style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">Connexion</a>
+                        <a href="{{ url('/login') }}"
+                           style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">Connexion</a>
                     </li>
                     <li>
-                        <a href="{{ url('/register') }}" style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">Créer un compte</a>
+                        <a href="{{ url('/register') }}"
+                           style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">Créer
+                            un compte</a>
                     </li>
                 @else
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
+                           style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
                             {{ Auth::user()->forname }}
                             <span class="caret"></span>
                         </a>

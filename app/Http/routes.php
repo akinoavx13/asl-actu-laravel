@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\ActualityController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PreferenceController;
 
 Route::auth();
@@ -24,4 +25,9 @@ Route::group(['middleware' => ['auth']], function () use ($router)
 Route::group(['prefix' => 'preferences', 'middleware' => ['auth']], function () use ($router)
 {
     PreferenceController::routes($router);
+});
+
+Route::group(['prefix' => 'categories', 'middleware' => ['admin']], function () use ($router)
+{
+    CategoryController::routes($router);
 });

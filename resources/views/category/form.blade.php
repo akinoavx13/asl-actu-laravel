@@ -1,32 +1,32 @@
 @extends('layouts.app')
 
 @section('title')
-    Création d'une actualité
+    Création d'une catégorie
 @stop
 
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            {!! Form::open(['route' => ['actuality.store'], 'class' => 'form-horizontal']) !!}
+            {!! Form::open(['route' => ['category.store'], 'class' => 'form-horizontal']) !!}
             <p class="text-right"><i class="text-danger">* Champs obligatoires</i></p>
 
             <div class="form-group">
                 <div class="col-md-3">
-                    {!! Form::label('category', 'Catégorie :', ['class' => 'control-label']) !!}
+                    {!! Form::label('name', 'Nom :', ['class' => 'control-label']) !!}
                     <i class="text-danger">*</i>
                 </div>
                 <div class="col-md-9">
-                    {!! Form::select('category', $categories, null, ['class' => 'form-control', 'required']) !!}
+                    {!! Form::text('name', old('name'), ['class' => 'form-control', 'required']) !!}
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-3">
-                    {!! Form::label('message', 'Message :', ['class' => 'control-label']) !!}
+                    {!! Form::label('color', 'Couleur :', ['class' => 'control-label']) !!}
                     <i class="text-danger">*</i>
                 </div>
                 <div class="col-md-9">
-                    {!! Form::textarea('message',  null, ['class' => 'form-control', 'rows' => '3', 'placeholder' => 'Votre message ...', 'required']) !!}
+                    {!! Form::select('color', ['orange' => 'Orange', 'red' => 'Rouge', 'clear_blue' => 'Bleu clair', 'dark_blue' => 'Blue foncé', 'green' => 'Vert'], null, ['class' => 'form-control', 'required']) !!}
                 </div>
             </div>
 
