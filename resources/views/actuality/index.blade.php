@@ -67,13 +67,15 @@
                             {!! Form::open(['route' => ['actuality.comment', $actuality->id], 'class' => 'form-horizontal']) !!}
                             <div class="row">
                                 <div class="col-md-2">
-                                    <a href="{{ route('actuality.like', $actuality->id) }}" style="text-decoration: none;">
+                                    <a href="{{ route('actuality.like', $actuality->id) }}"
+                                       style="text-decoration: none;">
                                         <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                                         {{ count($actuality->likes) }} J'aime
                                     </a>
                                 </div>
                                 <div class="col-md-10">
-                                    <a href="#" onclick="$(this).closest('form').submit()" style="text-decoration: none;">
+                                    <a href="#" onclick="$(this).closest('form').submit()"
+                                       style="text-decoration: none;">
                                         <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
                                         Commenter
                                     </a>
@@ -90,6 +92,10 @@
                                         {{ $comment->message }}
                                         <p style="font-size: 11px;">
                                             {{ ucfirst(Jenssegers\Date\Date::create($comment->created_at->year, $comment->created_at->month, $comment->created_at->day, $comment->created_at->hour, $comment->created_at->minute, $comment->created_at->second)->ago()) }}
+                                            <a href="{{ route('actuality.like', $comment->id) }}" style="text-decoration: none; margin-left: 10px;">
+                                                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                                                {{ count($comment->likes) }} J'aime
+                                            </a>
                                         </p>
                                     </div>
                                 </div>

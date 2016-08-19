@@ -13,6 +13,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+    <style>
+        .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+            background-color: #0273A3;
+            border-color: #337ab7;
+        }
+
+        .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+            color: #555;
+            background-color: #0273A3;
+        }
+    </style>
+
 </head>
 <body id="app-layout">
 

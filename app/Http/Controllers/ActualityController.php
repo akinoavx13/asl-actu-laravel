@@ -57,7 +57,6 @@ class ActualityController extends Controller
 
     public function index($category = null)
     {
-
         $user = Auth::user();
 
         $preference = $user->preference;
@@ -152,13 +151,15 @@ class ActualityController extends Controller
     public function like($actuality_id)
     {
 
-        $actualityLike = Like::where('user_id', Auth::user()->id)
+        $user = Auth::user()->id;
+
+        $actualityLike = Like::where('user_id', $user)
             ->where('actuality_id', $actuality_id)
             ->first();
 
         if ($actualityLike == null) {
             Like::create([
-                'user_id' => Auth::user()->id,
+                'user_id' => $user,
                 'actuality_id' => $actuality_id,
             ]);
             return redirect()->route('actuality.index')->with('success', 'Vous aimez l\'actualité');
