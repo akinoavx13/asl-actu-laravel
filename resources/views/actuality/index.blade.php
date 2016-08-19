@@ -27,32 +27,10 @@
                                     <span style="font-size: 20px;">{{ ucfirst($actuality->forname) }} {{ ucfirst($actuality->name) }}</span>
                                     dans la section
                                     <span style="font-weight: bold;">
-                                    @if($actuality->category == 'general')
-                                            <i class="text-warning">Général</i>
-                                        @elseif($actuality->category == 'athletics')
-                                            <i class="text-primary">Athlétisme</i>
-                                        @elseif($actuality->category == 'badminton')
-                                            <i class="text-success">Badminton</i>
-                                        @elseif($actuality->category == 'basketball')
-                                            <i class="text-info">Basketball</i>
-                                        @elseif($actuality->category == 'football')
-                                            <i class="text-warning">Football</i>
-                                        @elseif($actuality->category == 'gym')
-                                            <i class="text-danger">Gym</i>
-                                        @elseif($actuality->category == 'yoga_cestas')
-                                            <i class="text-danger">Yoga Cestas</i>
-                                        @elseif($actuality->category == 'ball')
-                                            <i class="text-warning">Pelote</i>
-                                        @elseif($actuality->category == 'soccer5')
-                                            <i class="text-info">Soccer5</i>
-                                        @elseif($actuality->category == 'tennis')
-                                            <i class="text-success">Tennis</i>
-                                        @elseif($actuality->category == 'volleyball')
-                                            <i class="text-primary">Volley</i>
-                                        @elseif($actuality->category == 'yoga_chalgrin')
-                                            <i class="text-warning">Yoga Chalgrin</i>
-                                        @endif
-                                    </span>
+                                        <i class="{{ $actuality->color == 'orange' ? 'text-warning' : '' }} {{ $actuality->color == 'red' ? 'text-danger' :  '' }} {{ $actuality->color == 'clear_blue' ? 'text-primary' : '' }} {{ $actuality->color == 'dark_blue' ? 'text-info' : '' }} {{ $actuality->color == 'green' ? 'text-success' : ''}}">
+                                        {{ $actuality->category }}
+                                        </i>
+                                   </span>
                                 </div>
                                 <div class="col-md-2">
                                     {{ ucfirst(Jenssegers\Date\Date::create($actuality->created_at->year, $actuality->created_at->month, $actuality->created_at->day, $actuality->created_at->hour, $actuality->created_at->minute, $actuality->created_at->second)->ago()) }}
@@ -92,7 +70,8 @@
                                         {{ $comment->message }}
                                         <p style="font-size: 11px;">
                                             {{ ucfirst(Jenssegers\Date\Date::create($comment->created_at->year, $comment->created_at->month, $comment->created_at->day, $comment->created_at->hour, $comment->created_at->minute, $comment->created_at->second)->ago()) }}
-                                            <a href="{{ route('actuality.like', $comment->id) }}" style="text-decoration: none; margin-left: 10px;">
+                                            <a href="{{ route('actuality.like', $comment->id) }}"
+                                               style="text-decoration: none; margin-left: 10px;">
                                                 <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                                                 {{ count($comment->likes) }} J'aime
                                             </a>

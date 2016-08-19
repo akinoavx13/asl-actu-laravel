@@ -58,8 +58,24 @@ class ActualityController extends Controller
 
     public function index($category_id = null)
     {
-        $actualities = Actuality::all();
-        $categories = Category::all();
+        if ($category_id == null) {
+            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname')
+                ->join('users', 'users.id', '=', 'actualities.user_id')
+                ->join('categories', 'users.id', '=', 'actualities.category_id')
+                ->get();
+        } else {
+            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname')
+                ->join('users', 'users.id', '=', 'actualities.user_id')
+                ->join('categories', 'users.id', '=', 'actualities.category_id')
+                ->where('categories.id', $category_id)
+                ->get();
+        }
+
+        $categories = Category::select('categories.name', 'categories.color', 'categories.id', DB::raw('count(*) as totalActualities'))
+            ->leftjoin('actualities', 'actualities.category_id', '=', 'categories.id')
+            ->groupBy('actualities.category_id')
+            ->orderBy('categories.name')
+            ->get();
 
         return view('actuality.index', compact('actualities', 'categories'));
     }
