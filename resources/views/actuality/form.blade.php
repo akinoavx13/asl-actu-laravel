@@ -12,11 +12,11 @@
 
             <div class="form-group">
                 <div class="col-md-3">
-                    {!! Form::label('category', 'Catégorie :', ['class' => 'control-label']) !!}
+                    {!! Form::label('category_id', 'Catégorie :', ['class' => 'control-label']) !!}
                     <i class="text-danger">*</i>
                 </div>
                 <div class="col-md-9">
-                    {!! Form::select('category', $categories, null, ['class' => 'form-control', 'required']) !!}
+                    {!! Form::select('category_id', $categories, null, ['class' => 'form-control', 'required']) !!}
                 </div>
             </div>
 

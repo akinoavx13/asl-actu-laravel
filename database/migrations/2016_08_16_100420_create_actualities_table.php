@@ -16,9 +16,7 @@ class CreateActualitiesTable extends Migration
         Schema::create('actualities', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-
-            $table->enum('category', ['general', 'athletics', 'badminton', 'basketball', 'football', 'gym', 'yoga_cestas', 'ball', 'soccer5', 'tennis', 'volleyball', 'yoga_chalgrin']);
-
+            
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 

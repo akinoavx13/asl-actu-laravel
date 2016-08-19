@@ -12,7 +12,7 @@ class Actuality extends Model
      * @var array
      */
     protected $fillable = [
-        'category', 'message', 'user_id', 'actuality_id'
+        'category_id', 'message', 'user_id', 'actuality_id'
     ];
 
     /**
