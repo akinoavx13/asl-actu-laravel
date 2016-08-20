@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Preference;
 use App\User;
 use Illuminate\Http\Request;
@@ -36,37 +37,51 @@ class PreferenceController extends Controller
 
     public function create()
     {
+        $categories = Category::select('categories.name', 'categories.id', 'preferences.user_id')
+            ->leftJoin('preferences', 'preferences.category_id', '=', 'categories.id')
+            ->orderBy('name')
+            ->get();
 
-        $preference = Auth::user()->preference;
-
-        return view('preference.form', compact('preference'));
+        return view('preference.form', compact('categories'));
     }
 
     public function store(Request $request)
     {
         $user = User::findOrFail(Auth::user()->id);
 
-        if ($user->preference == null) {
-            $user->update([
-                'preference_id' => Preference::create()->id,
-            ]);
-        }
+        $categories = Category::orderBy('name')->get();
+        foreach ($categories as $category) {
+            if (count($request->get('categories')) > 0) {
+                if (in_array($category->id, $request->get('categories'))) {
+                    $preferenceExist = Preference::where('user_id', $user->id)
+                        ->where('category_id', $category->id)
+                        ->first();
 
-        $preference = Preference::findOrFail($user->preference_id);
-        $preference->update([
-            'general' => array_key_exists('general', $request->get('category'))&& $request->get('category')['general'] == true ? true : false,
-            'athletics' => array_key_exists('athletics', $request->get('category'))&& $request->get('category')['athletics'] == true ? true : false,
-            'badminton' => array_key_exists('badminton', $request->get('category'))&& $request->get('category')['badminton'] == true ? true : false,
-            'basketball' => array_key_exists('basketball', $request->get('category'))&& $request->get('category')['basketball'] == true ? true : false,
-            'football' => array_key_exists('football', $request->get('category'))&& $request->get('category')['football'] == true ? true : false,
-            'gym' => array_key_exists('gym', $request->get('category'))&& $request->get('category')['gym'] == true ? true : false,
-            'yoga_cestas' => array_key_exists('yoga_cestas', $request->get('category'))&& $request->get('category')['yoga_cestas'] == true ? true : false,
-            'ball' => array_key_exists('ball', $request->get('category'))&& $request->get('category')['ball'] == true ? true : false,
-            'soccer5' => array_key_exists('soccer5', $request->get('category'))&& $request->get('category')['soccer5'] == true ? true : false,
-            'tennis' => array_key_exists('tennis', $request->get('category'))&& $request->get('category')['tennis'] == true ? true : false,
-            'volleyball' => array_key_exists('volleyball', $request->get('category'))&& $request->get('category')['volleyball'] == true ? true : false,
-            'yoga_chalgrin' => array_key_exists('yoga_chalgrin', $request->get('category'))&& $request->get('category')['yoga_chalgrin'] == true ? true : false
-        ]);
+                    if ($preferenceExist == null) {
+                        Preference::create([
+                            'user_id' => $user->id,
+                            'category_id' => $category->id
+                        ]);
+                    }
+                } else {
+                    $preferenceExist = Preference::where('user_id', $user->id)
+                        ->where('category_id', $category->id)
+                        ->first();
+
+                    if ($preferenceExist != null) {
+                        $preferenceExist->delete();
+                    }
+                }
+            } else {
+                $preferenceExist = Preference::where('user_id', $user->id)
+                    ->where('category_id', $category->id)
+                    ->first();
+
+                if ($preferenceExist != null) {
+                    $preferenceExist->delete();
+                }
+            }
+        }
 
         return redirect()->route('actuality.index')->with('success', 'Préférences sauvegardées');
     }

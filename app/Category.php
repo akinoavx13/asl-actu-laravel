@@ -19,4 +19,9 @@ class Category extends Model
     {
         return $this->hasMany('App\Actuality');
     }
+
+    public function preferences()
+    {
+        return $this->hasMany('App\Preference');
+    }
 }

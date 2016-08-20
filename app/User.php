@@ -13,7 +13,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'forname', 'email', 'password', 'role', 'preference_id',
+        'name', 'forname', 'email', 'password', 'role',
     ];
 
     /**
@@ -25,9 +25,9 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function preference()
+    public function preferences()
     {
-        return $this->belongsTo('App\Preference');
+        return $this->hasMany('App\Preference');
     }
 
     public function actualities()
