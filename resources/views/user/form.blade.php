@@ -7,7 +7,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            {!! Form::open(['route' => ['user.update'], 'class' => 'form-horizontal']) !!}
+            {!! Form::open(['route' => ['user.update'], 'class' => 'form-horizontal', 'files' => true]) !!}
             <p class="text-right"><i class="text-danger">* Champs obligatoires</i></p>
 
             <div class="form-group">
@@ -37,6 +37,16 @@
                 </div>
                 <div class="col-md-9">
                     {!! Form::text('email', $user->email, ['class' => 'form-control', 'required']) !!}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    {!! Form::label('avatar', 'Avatar :', ['class' => 'control-label']) !!}
+                </div>
+
+                <div class="col-md-9">
+                    {!! Form::file('avatar', ['class' => 'form-control']) !!}
                 </div>
             </div>
 

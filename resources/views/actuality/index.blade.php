@@ -20,10 +20,13 @@
                 </h1>
             @else
                 @foreach($actualities as $actuality)
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="{{ $actuality->id }}">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-md-10">
+                                    @if($actuality->avatar)
+                                        <img src="{{ asset('img/avatars/' . $actuality->user_id . '.jpg') }}" alt="avatar" width="35" height="35" class="img-rounded"/>
+                                    @endif
                                     <span style="font-size: 20px;">{{ ucfirst($actuality->forname) }} {{ ucfirst($actuality->name) }}</span>
                                     dans la section
                                     <span style="font-weight: bold;">
@@ -65,7 +68,10 @@
                                 <div class="row" style="margin-top: 10px; margin-bottom: 10px;">
                                     <div class="col-md-12">
                                         <span class="text-info" style="font-weight: bold; margin-right: 20px;">
-                                            {{ $comment->user->name }}
+                                            @if($actuality->avatar)
+                                                <img src="{{ asset('img/avatars/' . $comment->user->id . '.jpg') }}" alt="avatar" width="20" height="20" class="img-rounded"/>
+                                            @endif
+                                            {{ $comment->user->forname }} {{ $comment->user->name }}
                                         </span>
                                         {{ $comment->message }}
                                         <p style="font-size: 11px;">

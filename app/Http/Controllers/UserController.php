@@ -47,12 +47,14 @@ class UserController extends Controller
             'forname' => 'required',
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'avatar' => 'image'
         ]);
 
         $user->update([
             'forname' => $request->get('forname'),
             'name' => $request->get('name'),
             'email' => $request->get('email'),
+            'avatar' => $request->avatar,
         ]);
 
         if($request->get('password') != '') {

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class ActualityController extends Controller
 {
@@ -59,14 +60,14 @@ class ActualityController extends Controller
     public function index($category_id = null)
     {
         if ($category_id == null) {
-            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname')
+            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname', 'users.avatar', 'users.id as user_id')
                 ->join('users', 'users.id', '=', 'actualities.user_id')
                 ->join('categories', 'categories.id', '=', 'actualities.category_id')
                 ->join('preferences', 'preferences.category_id', '=', 'categories.id')
                 ->whereNull('actualities.actuality_id')
                 ->get();
         } else {
-            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname')
+            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname', 'users.avatar', 'users.id as user_id')
                 ->join('users', 'users.id', '=', 'actualities.user_id')
                 ->join('categories', 'categories.id', '=', 'actualities.category_id')
                 ->where('categories.id', $category_id)
@@ -88,6 +89,10 @@ class ActualityController extends Controller
     {
         $actuality = new Actuality();
         $categories = Category::lists('name', 'id');
+
+        if(count($categories) <= 0) {
+            return redirect()->route('actuality.index')->with('error', 'Il n\'y a pas encore de catégorie');
+        }
 
         return view('actuality.form', compact('actuality', 'categories'));
     }
@@ -123,12 +128,11 @@ class ActualityController extends Controller
             'message' => $request->get('content'),
         ]);
 
-        return redirect()->route('actuality.index')->with('success', 'Commentaire posté');
+        return Redirect::to(route('actuality.index') . '#' . $actuality_id);
     }
 
     public function like($actuality_id)
     {
-
         $user = Auth::user()->id;
 
         $actualityLike = Like::where('user_id', $user)
@@ -140,7 +144,7 @@ class ActualityController extends Controller
                 'user_id' => $user,
                 'actuality_id' => $actuality_id,
             ]);
-            return redirect()->route('actuality.index')->with('success', 'Vous aimez l\'actualité');
+            return Redirect::to(route('actuality.index') . '#' . $actuality_id);
         }
 
         return redirect()->route('actuality.index')->with('error', 'Vous aimez déjà l\'actualité');
