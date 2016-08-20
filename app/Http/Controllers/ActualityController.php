@@ -59,21 +59,25 @@ class ActualityController extends Controller
     public function index($category_id = null)
     {
         if ($category_id == null) {
-            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname')
+            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname')
                 ->join('users', 'users.id', '=', 'actualities.user_id')
-                ->join('categories', 'users.id', '=', 'actualities.category_id')
+                ->join('categories', 'categories.id', '=', 'actualities.category_id')
+                ->join('preferences', 'preferences.category_id', '=', 'categories.id')
+                ->whereNull('actualities.actuality_id')
                 ->get();
         } else {
-            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname')
+            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname')
                 ->join('users', 'users.id', '=', 'actualities.user_id')
-                ->join('categories', 'users.id', '=', 'actualities.category_id')
+                ->join('categories', 'categories.id', '=', 'actualities.category_id')
                 ->where('categories.id', $category_id)
+                ->whereNull('actualities.actuality_id')
                 ->get();
         }
 
-        $categories = Category::select('categories.name', 'categories.color', 'categories.id', DB::raw('count(*) as totalActualities'))
-            ->leftjoin('actualities', 'actualities.category_id', '=', 'categories.id')
-            ->groupBy('actualities.category_id')
+        $categories = Category::select('categories.name', 'categories.color', 'categories.id', 'actualities.category_id', DB::raw('count(actualities.category_id) as totalActualities'))
+            ->leftJoin('actualities', 'actualities.category_id', '=', 'categories.id')
+            ->whereNull('actualities.actuality_id')
+            ->groupBy('categories.name', 'categories.color', 'categories.id', 'actualities.category_id')
             ->orderBy('categories.name')
             ->get();
 
@@ -113,7 +117,7 @@ class ActualityController extends Controller
         $actuality = Actuality::findOrFail($actuality_id);
 
         Actuality::create([
-            'category' => $actuality->category,
+            'category_id' => $actuality->category_id,
             'user_id' => Auth::user()->id,
             'actuality_id' => $actuality_id,
             'message' => $request->get('content'),

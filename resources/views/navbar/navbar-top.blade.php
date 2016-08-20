@@ -68,6 +68,12 @@
 
                         <ul class="dropdown-menu" role="menu">
                             <li>
+                                <a href="{{ route('user.edit') }}">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                    Mon compte
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ url('/logout') }}">
                                     <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
                                     Déconnexion

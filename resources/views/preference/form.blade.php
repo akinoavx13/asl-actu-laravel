@@ -12,7 +12,7 @@
 
             <div class="form-group">
                 <div class="col-md-3">
-                    {!! Form::label('categories[]', 'Catégorie :', ['class' => 'control-label']) !!}
+                    {!! Form::label('categories[]', 'Catégories :', ['class' => 'control-label']) !!}
                     <i class="text-danger">*</i>
                 </div>
                 <div class="col-md-9">
