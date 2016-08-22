@@ -29,6 +29,7 @@ class AuthController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+    protected $redirectPath = '/';
 
     /**
      * Create a new authentication controller instance.
@@ -43,30 +44,42 @@ class AuthController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'forname' => 'required|max:255',
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'avatar' => 'image',
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return User
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
+            'forname' => $data['forname'],
             'name' => $data['name'],
             'email' => $data['email'],
+            'role' => 'user',
             'password' => bcrypt($data['password']),
         ]);
+
+        if (array_key_exists('avatar', $data)) {
+            $user->update([
+                'avatar' => $data['avatar'],
+            ]);
+        }
+
+        return $user;
     }
 }

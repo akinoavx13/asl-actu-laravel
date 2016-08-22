@@ -11,6 +11,29 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+use App\Http\Controllers\ActualityController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PreferenceController;
+use App\Http\Controllers\UserController;
+
+Route::auth();
+
+Route::group(['middleware' => ['auth']], function () use ($router)
+{
+    ActualityController::routes($router);
+});
+
+Route::group(['prefix' => 'preferences', 'middleware' => ['auth']], function () use ($router)
+{
+    PreferenceController::routes($router);
+});
+
+Route::group(['prefix' => 'categories', 'middleware' => ['admin']], function () use ($router)
+{
+    CategoryController::routes($router);
+});
+
+Route::group(['prefix' => 'users', 'middleware' => ['auth']], function () use ($router)
+{
+    UserController::routes($router);
 });
