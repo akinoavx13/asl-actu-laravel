@@ -66,6 +66,8 @@ class ActualityController extends Controller
                 ->join('categories', 'categories.id', '=', 'actualities.category_id')
                 ->join('preferences', 'preferences.category_id', '=', 'categories.id')
                 ->whereNull('actualities.actuality_id')
+                ->where('preferences.user_id', Auth::user()->id)
+                ->orderBy('actualities.created_at', 'desc')
                 ->get();
         } else {
             $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname', 'users.avatar', 'users.id as user_id')
@@ -73,18 +75,39 @@ class ActualityController extends Controller
                 ->join('categories', 'categories.id', '=', 'actualities.category_id')
                 ->where('categories.id', $category_id)
                 ->whereNull('actualities.actuality_id')
+                ->orderBy('actualities.created_at', 'desc')
                 ->get();
         }
 
-        $categories = Category::select('categories.name', 'categories.color', 'categories.id', 'actualities.category_id', DB::raw('count(actualities.category_id) as totalActualities'), 'preferences.user_id')
-            ->leftJoin('preferences', 'preferences.category_id', '=', 'categories.id')
+        $categories = Category::select('categories.name', 'categories.color', 'categories.id', 'actualities.category_id', DB::raw('count(actualities.category_id) as totalActualities'))
             ->leftJoin('actualities', 'actualities.category_id', '=', 'categories.id')
             ->whereNull('actualities.actuality_id')
             ->groupBy('categories.name', 'categories.color', 'categories.id', 'actualities.category_id')
             ->orderBy('categories.name')
             ->get();
 
-        return view('actuality.index', compact('actualities', 'categories', 'myPreferences'));
+        $preferences = Preference::where('user_id', Auth::user()->id)
+            ->get();
+
+        $myPref = [];
+
+        foreach ($categories as $category) {
+            foreach ($preferences as $preference) {
+                if ($category->id == $preference->category_id) {
+                    $myPref[] = $category->id;
+                }
+            }
+        }
+
+        foreach ($categories as $category) {
+            if (in_array($category->id, $myPref)) {
+                $category->preference = true;
+            } else {
+                $category->preference = false;
+            }
+        }
+
+        return view('actuality.index', compact('actualities', 'categories'));
     }
 
     public function create()

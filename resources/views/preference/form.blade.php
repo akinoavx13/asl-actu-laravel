@@ -32,7 +32,7 @@
                     @foreach($categories as $category)
                         <div class="checkbox">
                             <label>
-                                {!! Form::checkbox('categories[' . $category->id . ']', $category->id, $category->user_id != null ? true : false, []) !!}
+                                {!! Form::checkbox('categories[' . $category->id . ']', $category->id, $category->preference ? true : false, []) !!}
                                 {{ $category->name }}
                             </label>
                         </div>

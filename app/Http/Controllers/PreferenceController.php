@@ -37,10 +37,30 @@ class PreferenceController extends Controller
 
     public function create()
     {
-        $categories = Category::select('categories.name', 'categories.id', 'preferences.user_id')
-            ->leftJoin('preferences', 'preferences.category_id', '=', 'categories.id')
+        $categories = Category::select('categories.name', 'categories.id')
             ->orderBy('name')
             ->get();
+
+        $preferences = Preference::where('user_id', Auth::user()->id)
+            ->get();
+
+        $myPref = [];
+
+        foreach ($categories as $category) {
+            foreach ($preferences as $preference) {
+                if ($category->id == $preference->category_id) {
+                    $myPref[] = $category->id;
+                }
+            }
+        }
+
+        foreach ($categories as $category) {
+            if (in_array($category->id, $myPref)) {
+                $category->preference = true;
+            } else {
+                $category->preference = false;
+            }
+        }
 
         return view('preference.form', compact('categories'));
     }
