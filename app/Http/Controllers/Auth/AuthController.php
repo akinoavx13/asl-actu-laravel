@@ -74,9 +74,11 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
-        $user->update([
-            'avatar' => $data['avatar'],
-        ]);
+        if (array_key_exists('avatar', $data)) {
+            $user->update([
+                'avatar' => $data['avatar'],
+            ]);
+        }
 
         return $user;
     }

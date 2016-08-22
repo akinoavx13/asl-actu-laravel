@@ -32,8 +32,8 @@
             @else
                 @foreach($actualities as $actuality)
                     <div class="panel {{ $actuality->color == 'orange' ? 'panel-warning' : '' }} {{ $actuality->color == 'red' ? 'panel-danger' :  '' }} {{ $actuality->color == 'clear_blue' ? 'panel-primary' : '' }} {{ $actuality->color == 'dark_blue' ? 'panel-info' : '' }} {{ $actuality->color == 'green' ? 'panel-success' : ''}}"
-                         id="{{ $actuality->id }}">
-                        <div class="panel-heading">
+                         id="{{ $actuality->id }}" style="{{ $actuality->color == 'clear_blue' ? 'border-color: rgba(51, 122, 183, 0.5)' : '' }}">
+                        <div class="panel-heading" style="{{ $actuality->color == 'clear_blue' ? 'background-color: rgba(51, 122, 183, 0.5);border-color: rgba(51, 122, 183, 0.5)' : '' }}">
                             <div class="row">
                                 <div class="col-md-10">
                                     @if($actuality->avatar)
