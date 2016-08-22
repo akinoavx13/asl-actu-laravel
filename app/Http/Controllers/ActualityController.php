@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actuality;
 use App\Category;
 use App\Like;
+use App\Preference;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -75,14 +76,15 @@ class ActualityController extends Controller
                 ->get();
         }
 
-        $categories = Category::select('categories.name', 'categories.color', 'categories.id', 'actualities.category_id', DB::raw('count(actualities.category_id) as totalActualities'))
+        $categories = Category::select('categories.name', 'categories.color', 'categories.id', 'actualities.category_id', DB::raw('count(actualities.category_id) as totalActualities'), 'preferences.user_id')
+            ->leftJoin('preferences', 'preferences.category_id', '=', 'categories.id')
             ->leftJoin('actualities', 'actualities.category_id', '=', 'categories.id')
             ->whereNull('actualities.actuality_id')
             ->groupBy('categories.name', 'categories.color', 'categories.id', 'actualities.category_id')
             ->orderBy('categories.name')
             ->get();
 
-        return view('actuality.index', compact('actualities', 'categories'));
+        return view('actuality.index', compact('actualities', 'categories', 'myPreferences'));
     }
 
     public function create()

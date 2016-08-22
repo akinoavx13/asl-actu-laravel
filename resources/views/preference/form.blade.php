@@ -5,6 +5,19 @@
 @stop
 
 @section('content')
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="text-center">
+                <i>
+                    Sélectionner les sections qui vous intéressent
+                </i>
+            </p>
+        </div>
+    </div>
+
+    <hr>
+
     <div class="row">
         <div class="col-md-12">
             {!! Form::open(['route' => ['preference.store'], 'class' => 'form-horizontal']) !!}

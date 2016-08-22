@@ -8,6 +8,17 @@
 
     <div class="row">
         <div class="col-md-12">
+            @if(Request::is('/'))
+                <h2 class="text-center">
+                    Vos préférences
+                </h2>
+                <hr>
+            @endif
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
             @include('navbar.jumbotron')
         </div>
     </div>
@@ -20,7 +31,7 @@
                 </h1>
             @else
                 @foreach($actualities as $actuality)
-                    <div class="panel panel-default" id="{{ $actuality->id }}">
+                    <div class="panel {{ $actuality->color == 'orange' ? 'panel-warning' : '' }} {{ $actuality->color == 'red' ? 'panel-danger' :  '' }} {{ $actuality->color == 'clear_blue' ? 'panel-primary' : '' }} {{ $actuality->color == 'dark_blue' ? 'panel-info' : '' }} {{ $actuality->color == 'green' ? 'panel-success' : ''}}" id="{{ $actuality->id }}">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-md-10">
