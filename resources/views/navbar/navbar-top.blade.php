@@ -62,7 +62,9 @@
                     <li class="dropdown" style="{{ Request::is('users/edit') ? 'background: #0273A3;' : '' }} ">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
                            style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
-                            <img src="{{ asset('img/avatars/' . Auth::user()->id . '.jpg') }}" alt="avatar" width="35" height="35" class="img-rounded"/>
+                            @if(Auth::user()->avatar)
+                                <img src="{{ asset('img/avatars/' . Auth::user()->id . '.jpg') }}" alt="avatar" width="35" height="35" class="img-rounded"/>
+                            @endif
                             {{ Auth::user()->forname }}
                             <span class="caret"></span>
                         </a>

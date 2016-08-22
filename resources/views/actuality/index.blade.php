@@ -31,15 +31,19 @@
                 </h1>
             @else
                 @foreach($actualities as $actuality)
-                    <div class="panel {{ $actuality->color == 'orange' ? 'panel-warning' : '' }} {{ $actuality->color == 'red' ? 'panel-danger' :  '' }} {{ $actuality->color == 'clear_blue' ? 'panel-primary' : '' }} {{ $actuality->color == 'dark_blue' ? 'panel-info' : '' }} {{ $actuality->color == 'green' ? 'panel-success' : ''}}" id="{{ $actuality->id }}">
+                    <div class="panel {{ $actuality->color == 'orange' ? 'panel-warning' : '' }} {{ $actuality->color == 'red' ? 'panel-danger' :  '' }} {{ $actuality->color == 'clear_blue' ? 'panel-primary' : '' }} {{ $actuality->color == 'dark_blue' ? 'panel-info' : '' }} {{ $actuality->color == 'green' ? 'panel-success' : ''}}"
+                         id="{{ $actuality->id }}">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-md-10">
                                     @if($actuality->avatar)
-                                        <img src="{{ asset('img/avatars/' . $actuality->user_id . '.jpg') }}" alt="avatar" width="35" height="35" class="img-rounded"/>
+                                        <img src="{{ asset('img/avatars/' . $actuality->user_id . '.jpg') }}"
+                                             alt="avatar" width="35" height="35" class="img-rounded"/>
                                     @endif
-                                    <span style="font-size: 20px;">{{ ucfirst($actuality->forname) }} {{ ucfirst($actuality->name) }}</span>
+                                    <span style="font-size: 20px; color:black;">{{ ucfirst($actuality->forname) }} {{ ucfirst($actuality->name) }}</span>
+                                    <span style="color:black;">
                                     dans la section
+                                    </span>
                                     <span style="font-weight: bold;">
                                         <i class="{{ $actuality->color == 'orange' ? 'text-warning' : '' }} {{ $actuality->color == 'red' ? 'text-danger' :  '' }} {{ $actuality->color == 'clear_blue' ? 'text-primary' : '' }} {{ $actuality->color == 'dark_blue' ? 'text-info' : '' }} {{ $actuality->color == 'green' ? 'text-success' : ''}}">
                                         {{ $actuality->category }}
@@ -80,7 +84,8 @@
                                     <div class="col-md-12">
                                         <span class="text-info" style="font-weight: bold; margin-right: 20px;">
                                             @if($actuality->avatar)
-                                                <img src="{{ asset('img/avatars/' . $comment->user->id . '.jpg') }}" alt="avatar" width="20" height="20" class="img-rounded"/>
+                                                <img src="{{ asset('img/avatars/' . $comment->user->id . '.jpg') }}"
+                                                     alt="avatar" width="20" height="20" class="img-rounded"/>
                                             @endif
                                             {{ $comment->user->forname }} {{ $comment->user->name }}
                                         </span>

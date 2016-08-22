@@ -112,6 +112,8 @@ class ActualityController extends Controller
             'user_id' => Auth::user()->id,
         ]);
 
+
+
         return redirect()->route('actuality.index')->with('success', 'Actualité créée');
     }
 
