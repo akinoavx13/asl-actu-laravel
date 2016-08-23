@@ -35,6 +35,12 @@
                                 Catégories
                             </a>
                         </li>
+                        <li style="{{ Request::is('users/index') ? 'background: #0273A3;' : '' }} ">
+                            <a href="{{ route('user.index') }}"
+                               style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
+                                Utilisateurs
+                            </a>
+                        </li>
                     @endif
                     <li style="{{ Request::is('preferences/create') ? 'background: #0273A3;' : '' }} ">
                         <a href="{{ route('preference.create') }}"

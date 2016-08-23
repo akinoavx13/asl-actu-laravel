@@ -1,66 +1,42 @@
 @extends('layouts.app')
 
 @section('title')
-    Catégories
+    Utilisateurs
 @endsection
 
 @section('content')
 
     <div class="row">
-        <div class="col-md-offset-4 col-md-4">
-            <a href="{{ route('category.create') }}" class="btn btn-block btn-success">Ajouter une catégorie</a>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
         <div class="col-md-12">
-            @if(count($categories) <= 0)
+            @if(count($users) <= 0)
                 <h1 class="text-center text-danger">
-                    Il n'y a pas de catégorie
+                    Il n'y a pas d'utilisateurs
                 </h1>
             @else
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover display" id="categoriesList">
+                    <table class="table table-striped table-hover display" id="userList">
                         <thead>
-                            <tr>
-                                <th class="text-center">Nom</th>
-                                <th class="text-center">Couleur</th>
-                                <th class="text-center">Nombre d'actualité</th>
-                                <th class="text-center">Supprimer</th>
-                            </tr>
+                        <tr>
+                            <th class="text-center">Prénom</th>
+                            <th class="text-center">Nom</th>
+                            <th class="text-center">E-Mail</th>
+                            <th class="text-center">Editer</th>
+                            <th class="text-center">Supprimer</th>
+                        </tr>
                         </thead>
                         <tbody>
-                        @foreach($categories as $category)
+                        @foreach($users as $user)
                             <tr class="text-center">
-                                <td>{{ $category->name }}</td>
+                                <td>{{ $user->forname }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
                                 <td>
-                                    @if($category->color == 'orange')
-                                        <i class="text-warning">
-                                            Orange
-                                        </i>
-                                    @elseif($category->color == 'red')
-                                        <i class="text-danger">
-                                            Rouge
-                                        </i>
-                                    @elseif($category->color == 'clear_blue')
-                                        <i class="text-primary">
-                                            Bleu clair
-                                        </i>
-                                    @elseif($category->color == 'dark_blue')
-                                        <i class="text-info">
-                                            Bleu foncé
-                                        </i>
-                                    @elseif($category->color == 'green')
-                                        <i class="text-success">
-                                            Vert
-                                        </i>
-                                    @endif
+                                    <a href="{{ route('user.editAsAdmin', $user->id) }}" class="text-info">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </a>
                                 </td>
                                 <td>
-                                    {{ count($category->actualities) }}
-                                </td>
-                                <td>
-                                    <a href="{{ route('category.delete', $category->id) }}" class="text-danger">
+                                    <a href="{{ route('user.delete', $user->id) }}" class="text-danger">
                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </a>
                                 </td>
@@ -78,7 +54,7 @@
 @section('javascript')
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#categoriesList').DataTable( {
+            $('#userList').DataTable( {
                 "pageLength": 100,
                 language: {
                     processing:     "Traitement en cours...",
