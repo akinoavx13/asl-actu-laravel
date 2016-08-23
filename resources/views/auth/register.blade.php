@@ -100,6 +100,28 @@
                         </div>
 
                         <div class="form-group">
+                            <div class="col-md-4">
+                                {!! Form::label('newsletter', "Recevoir les actualités par mail", ['class' => 'control-label']) !!}
+                                <i class="text-danger">*</i>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="radio-inline">
+                                    <label>
+                                        {!! Form::radio('newsletter', '1', false, ['required']) !!}
+                                        Oui
+                                    </label>
+                                </div>
+                                <div class="radio-inline">
+                                    <label>
+                                        {!! Form::radio('newsletter', '0', false, ['required']) !!}
+                                        Non
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-user"></i> Créer

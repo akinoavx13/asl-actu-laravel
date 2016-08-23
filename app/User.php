@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'forname', 'email', 'password', 'role', 'avatar'
+        'name', 'forname', 'email', 'password', 'role', 'avatar', 'newsletter'
     ];
 
     /**
@@ -27,13 +27,16 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+    protected $casts = [
+        'newsletter' => 'boolean',
+    ];
+
     public static function boot()
     {
         parent::boot();
-        static::deleted(function ($instance)
-        {
-            if ($instance->avatar)
-            {
+        static::deleted(function ($instance) {
+            if ($instance->avatar) {
                 File::delete(public_path() . $instance->avatar);
             }
 
@@ -43,8 +46,7 @@ class User extends Authenticatable
 
     public function getAvatarAttribute($avatar)
     {
-        if ($avatar)
-        {
+        if ($avatar) {
             return "/img/avatars/{$this->id}.jpg";
         }
 
@@ -53,8 +55,7 @@ class User extends Authenticatable
 
     public function setAvatarAttribute($avatar)
     {
-        if (is_object($avatar) && $avatar->isValid())
-        {
+        if (is_object($avatar) && $avatar->isValid()) {
             ImageManagerStatic::make($avatar)->fit(200)->save(public_path() . "/img/avatars/{$this->id}.jpg");
             $this->attributes['avatar'] = 1;
         }

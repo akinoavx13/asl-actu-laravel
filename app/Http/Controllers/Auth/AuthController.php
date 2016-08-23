@@ -72,6 +72,7 @@ class AuthController extends Controller
             'email' => $data['email'],
             'role' => 'user',
             'password' => bcrypt($data['password']),
+            'newsletter' => $data['newsletter'],
         ]);
 
         if (array_key_exists('avatar', $data)) {

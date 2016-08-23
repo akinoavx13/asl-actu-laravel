@@ -88,7 +88,8 @@ class UserController extends Controller
             'forname' => 'required',
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'avatar' => 'image'
+            'avatar' => 'image',
+            'newsletter' => 'required|boolean',
         ]);
 
         $user->update([
@@ -96,6 +97,7 @@ class UserController extends Controller
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'avatar' => $request->avatar,
+            'newsletter' => $request->get('newsletter'),
         ]);
 
         if ($request->get('password') != '') {
@@ -119,7 +121,8 @@ class UserController extends Controller
             'forname' => 'required',
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'avatar' => 'image'
+            'avatar' => 'image',
+            'newsletter' => 'required|boolean',
         ]);
 
         $user->update([
@@ -127,6 +130,7 @@ class UserController extends Controller
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'avatar' => $request->avatar,
+            'newsletter' => $request->get('newsletter'),
         ]);
 
         if ($request->get('password') != '') {
