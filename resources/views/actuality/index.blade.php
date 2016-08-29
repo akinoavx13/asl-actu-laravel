@@ -37,7 +37,7 @@
                         <div class="panel-heading"
                              style="{{ $actuality->color == 'clear_blue' ? 'background-color: rgba(51, 122, 183, 0.5);border-color: rgba(51, 122, 183, 0.5)' : '' }}">
                             <div class="row">
-                                <div class="col-md-10">
+                                <div class="col-md-9">
                                     @if($actuality->avatar)
                                         <img src="{{ asset('img/avatars/' . $actuality->user_id . '.jpg') }}"
                                              alt="avatar" width="35" height="35" class="img-rounded"/>
@@ -55,6 +55,13 @@
                                 <div class="col-md-2">
                                     {{ ucfirst(Jenssegers\Date\Date::create($actuality->created_at->year, $actuality->created_at->month, $actuality->created_at->day, $actuality->created_at->hour, $actuality->created_at->minute, $actuality->created_at->second)->ago()) }}
                                 </div>
+                                @if(Auth::user()->role == 'admin')
+                                    <div class="col-md-1">
+                                        <a href="{{ route('actuality.delete', $actuality->id) }}">
+                                            <span class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></span>
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="panel-body">

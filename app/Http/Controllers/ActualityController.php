@@ -57,6 +57,12 @@ class ActualityController extends Controller
             'uses' => 'ActualityController@like',
             'as' => 'actuality.like',
         ]);
+
+        $router->get('delete/{actuality_id}', [
+            'middleware' => 'admin',
+            'uses' => 'ActualityController@delete',
+            'as' => 'actuality.delete',
+        ]);
     }
 
     public function index($category_id = null)
@@ -211,6 +217,15 @@ class ActualityController extends Controller
             return Redirect::to(route('actuality.index') . '#' . $actuality_id);
         }
 
-        return redirect()->route('actuality.index')->with('error', 'Vous aimez déjà l\'actualité');
+        return redirect()->back()->with('error', 'Vous aimez déjà l\'actualité');
+    }
+
+    public function delete($actuality_id)
+    {
+        $actuality = Actuality::findOrFail($actuality_id);
+
+        $actuality->delete();
+
+        return redirect()->back()->with('success', 'Actualité supprimée');
     }
 }
