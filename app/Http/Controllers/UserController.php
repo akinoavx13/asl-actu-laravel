@@ -90,6 +90,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email,' . $user->id,
             'avatar' => 'image',
             'newsletter' => 'required|boolean',
+            'role' => 'required|in:user,admin'
         ]);
 
         $user->update([
@@ -98,6 +99,7 @@ class UserController extends Controller
             'email' => $request->get('email'),
             'avatar' => $request->avatar,
             'newsletter' => $request->get('newsletter'),
+            'role' => $request->get('role'),
         ]);
 
         if ($request->get('password') != '') {
