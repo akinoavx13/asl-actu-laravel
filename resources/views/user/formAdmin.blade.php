@@ -68,6 +68,38 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <div class="col-md-3">
+                    {!! Form::label('newsletter', "Recevoir les actualités par mail", ['class' => 'control-label']) !!}
+                    <i class="text-danger">*</i>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="radio-inline">
+                        <label>
+                            {!! Form::radio('newsletter', '1', $user->exists ? $user->newsletter == true ? true : false : false, ['required']) !!}
+                            Oui
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            {!! Form::radio('newsletter', '0', $user->exists ? $user->newsletter == false ? true : false : false, ['required']) !!}
+                            Non
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    {!! Form::label('role', 'Rôle :', ['class' => 'control-label']) !!}
+                    <i class="text-danger">*</i>
+                </div>
+                <div class="col-md-9">
+                    {!! Form::select('role', ['user' => 'Utilisateur', 'admin' => 'Admin'], $user->role, ['class' => 'form-control', 'required']) !!}
+                </div>
+            </div>
+
             <div class="form-group text-center">
                 {!! Form::submit('Sauvegarder', ['class' => 'btn btn-success']) !!}
             </div>
