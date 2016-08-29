@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->enum('role', ['user', 'admin']);
             $table->boolean('avatar')->default(false);
+            $table->boolean('newsletter')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

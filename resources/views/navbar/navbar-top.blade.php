@@ -35,12 +35,24 @@
                                 Catégories
                             </a>
                         </li>
+                        <li style="{{ Request::is('users/index') ? 'background: #0273A3;' : '' }} ">
+                            <a href="{{ route('user.index') }}"
+                               style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
+                                Utilisateurs
+                            </a>
+                        </li>
                     @endif
                     <li style="{{ Request::is('preferences/create') ? 'background: #0273A3;' : '' }} ">
                         <a href="{{ route('preference.create') }}"
                            style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
                             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                             Préférences
+                        </a>
+                    </li>
+                    <li style="{{ Request::is('preferences/create') ? 'background: #0273A3;' : '' }} ">
+                        <a href="http://www.aslectra.com#sections"
+                           style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
+                            ASLectra
                         </a>
                     </li>
                 </ul>

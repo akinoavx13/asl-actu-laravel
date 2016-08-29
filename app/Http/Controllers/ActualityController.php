@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
 class ActualityController extends Controller
@@ -115,7 +116,7 @@ class ActualityController extends Controller
         $actuality = new Actuality();
         $categories = Category::lists('name', 'id');
 
-        if(count($categories) <= 0) {
+        if (count($categories) <= 0) {
             return redirect()->route('actuality.index')->with('error', 'Il n\'y a pas encore de catégorie');
         }
 
@@ -135,7 +136,26 @@ class ActualityController extends Controller
             'user_id' => Auth::user()->id,
         ]);
 
+        $category = Category::findOrFail($request->get('category_id'));
 
+        $usersForNewsletter = User::select('users.email', 'users.forname', 'users.name')
+            ->join('preferences', 'preferences.user_id', '=', 'users.id')
+            ->where('users.newsletter', 1)
+            ->where('preferences.category_id', $request->get('category_id'))
+            ->get()
+            ->chunk(45)
+            ->toArray();
+
+        foreach ($usersForNewsletter as $group) {
+            foreach ($group as $user) {
+
+                Mail::send('emails.actu', ['user' => $user, 'writer' => Auth::user(), 'content' => $request->get('message'), 'categoryName' => $category->name], function ($message) use ($user) {
+                    $message->from('contact@aslectra.com', 'ACTU ASLectra');
+
+                    $message->to($user['email'], $user['forname'])->subject('Nouvelle actualité ASLectra');
+                });
+            }
+        }
 
         return redirect()->route('actuality.index')->with('success', 'Actualité créée');
     }

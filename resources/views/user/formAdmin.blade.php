@@ -7,7 +7,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            {!! Form::open(['route' => ['user.update'], 'class' => 'form-horizontal', 'files' => true]) !!}
+            {!! Form::open(['route' => ['user.updateAsAdmin', $user->id], 'class' => 'form-horizontal', 'files' => true]) !!}
             <p class="text-right"><i class="text-danger">* Champs obligatoires</i></p>
 
             <div class="form-group">
@@ -65,28 +65,6 @@
                 </div>
                 <div class="col-md-9">
                     {!! Form::password('password_confirmation', ['class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-3">
-                    {!! Form::label('newsletter', "Recevoir les actualités par mail", ['class' => 'control-label']) !!}
-                    <i class="text-danger">*</i>
-                </div>
-
-                <div class="col-md-9">
-                    <div class="radio-inline">
-                        <label>
-                            {!! Form::radio('newsletter', '1', $user->exists ? $user->newsletter == true ? true : false : false, ['required']) !!}
-                            Oui
-                        </label>
-                    </div>
-                    <div class="radio-inline">
-                        <label>
-                            {!! Form::radio('newsletter', '0', $user->exists ? $user->newsletter == false ? true : false : false, ['required']) !!}
-                            Non
-                        </label>
-                    </div>
                 </div>
             </div>
 
