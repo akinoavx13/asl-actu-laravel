@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\ImageManagerStatic;
 
 class Actuality extends Model
 {
@@ -12,7 +14,7 @@ class Actuality extends Model
      * @var array
      */
     protected $fillable = [
-        'category_id', 'message', 'user_id', 'actuality_id'
+        'category_id', 'message', 'user_id', 'actuality_id', 'image'
     ];
 
     /**
@@ -23,6 +25,60 @@ class Actuality extends Model
     protected $hidden = [
         'user_id',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::deleted(function ($instance) {
+            if ($instance->image) {
+                unlink(public_path() . $instance->image);
+            }
+
+            return true;
+        });
+    }
+
+    public function getImageAttribute($photo)
+    {
+        if ($photo) {
+            return "/img/actualities/{$this->id}.jpg";
+        }
+
+        return false;
+    }
+
+    public function setImageAttribute($photo)
+    {
+        if (is_object($photo) && $photo->isValid()) {
+
+            $image = ImageManagerStatic::make($photo);
+
+            if ($image->width() > 200 && $image->height() > 200) {
+                $max = $image->width() > $image->height() ? 'width' : 'height';
+
+                if ($max == 'width') {
+                    $image->resize(200, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                } else {
+                    $image->resize(null, 200, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                }
+            } elseif ($image->width() < 200 && $image->height() > 200) {
+                $image->resize(null, 200, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            } elseif ($image->width() > 200 && $image->height() < 200) {
+                $image->resize(200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            }
+
+            $image->save(public_path() . "/img/actualities/{$this->id}.jpg");
+            $this->attributes['image'] = 1;
+        }
+    }
 
     public function comments()
     {

@@ -60,9 +60,16 @@
                         <div class="panel-body">
                             {{ $actuality->message }}
 
+                            @if($actuality->image)
+                                <br>
+                                <div class="img-responsive" style="padding-top: 10px; padding-bottom: 10px;">
+                                    <img src="{{ asset('img/actualities/' . $actuality->id . '.jpg') }}"
+                                         alt="image" width="200" height="200" class="img-rounded"/>
+                                </div>
+                            @endif
                             <hr style="margin-top: 7px; margin-bottom: 7px;">
 
-                            {!! Form::open(['route' => ['actuality.comment', $actuality->id], 'class' => 'form-horizontal']) !!}
+                            {!! Form::open(['route' => ['actuality.comment', $actuality->id], 'class' => 'form-horizontal', 'files' => true]) !!}
                             <div class="row">
                                 <div class="col-md-2">
                                     <a href="{{ route('actuality.like', $actuality->id) }}"
@@ -92,6 +99,15 @@
                                             {{ $comment->user->forname }} {{ $comment->user->name }}
                                         </span>
                                         {{ $comment->message }}
+
+                                        @if($comment->image)
+                                            <br>
+                                            <div class="img-responsive" style="padding-top: 10px; padding-bottom: 10px;">
+                                                <img src="{{ asset('img/actualities/' . $comment->id . '.jpg') }}"
+                                                     alt="image" width="200" height="200" class="img-rounded"/>
+                                            </div>
+                                        @endif
+
                                         <p style="font-size: 11px;">
                                             {{ ucfirst(Jenssegers\Date\Date::create($comment->created_at->year, $comment->created_at->month, $comment->created_at->day, $comment->created_at->hour, $comment->created_at->minute, $comment->created_at->second)->ago()) }}
                                             <a href="{{ route('actuality.like', $comment->id) }}"
@@ -105,8 +121,14 @@
                             @endforeach
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-11">
                                     {!! Form::textarea('content', old('content'), ['class' => 'form-control', 'rows' => '1', 'placeholder' => 'Votre commentaire ...']) !!}
+                                </div>
+                                <div class="col-md-1">
+                                    <label title="Upload image file" for="inputImage" class="btn btn-primary">
+                                        {!! Form::file('image', ['class' => 'hide', 'accept' => 'image/*', 'id' => 'inputImage']) !!}
+                                        <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+                                    </label>
                                 </div>
                             </div>
                             {!! Form::close() !!}
