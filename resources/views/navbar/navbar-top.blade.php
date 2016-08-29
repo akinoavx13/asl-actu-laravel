@@ -29,7 +29,7 @@
                         </a>
                     </li>
                     @if(Auth::user()->role == 'admin')
-                        <li style="{{ Request::is('categories/index') ? 'background: #0273A3;' : '' }} ">
+                        <li style="{{ Request::is('categories/index') || Request::is('categories/create') ? 'background: #0273A3;' : '' }} ">
                             <a href="{{ route('category.index') }}"
                                style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
                                 Catégories
