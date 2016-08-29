@@ -69,7 +69,7 @@ class ActualityController extends Controller
                 ->whereNull('actualities.actuality_id')
                 ->where('preferences.user_id', Auth::user()->id)
                 ->orderBy('actualities.created_at', 'desc')
-                ->paginate(10);
+                ->paginate(15);
         } else {
             $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname', 'users.avatar', 'users.id as user_id')
                 ->join('users', 'users.id', '=', 'actualities.user_id')
@@ -77,7 +77,7 @@ class ActualityController extends Controller
                 ->where('categories.id', $category_id)
                 ->whereNull('actualities.actuality_id')
                 ->orderBy('actualities.created_at', 'desc')
-                ->paginate(10);
+                ->paginate(15);
         }
 
         $categories = Category::select('categories.name', 'categories.color', 'categories.id', 'actualities.category_id', DB::raw('count(actualities.category_id) as totalActualities'))
@@ -114,7 +114,7 @@ class ActualityController extends Controller
     public function create()
     {
         $actuality = new Actuality();
-        $categories = Category::lists('name', 'id');
+        $categories = Category::orderBy('order')->lists('name', 'id');
 
         if (count($categories) <= 0) {
             return redirect()->route('actuality.index')->with('error', 'Il n\'y a pas encore de catégorie');

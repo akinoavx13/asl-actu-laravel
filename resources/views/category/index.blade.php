@@ -23,15 +23,18 @@
                     <table class="table table-striped table-hover display" id="categoriesList">
                         <thead>
                             <tr>
+                                <th class="text-center">Ordre</th>
                                 <th class="text-center">Nom</th>
                                 <th class="text-center">Couleur</th>
                                 <th class="text-center">Nombre d'actualité</th>
+                                <th class="text-center">Editer</th>
                                 <th class="text-center">Supprimer</th>
                             </tr>
                         </thead>
                         <tbody>
                         @foreach($categories as $category)
                             <tr class="text-center">
+                                <td>{{ $category->order }}</td>
                                 <td>{{ $category->name }}</td>
                                 <td>
                                     @if($category->color == 'orange')
@@ -58,6 +61,11 @@
                                 </td>
                                 <td>
                                     {{ count($category->actualities) }}
+                                </td>
+                                <td>
+                                    <a href="{{ route('category.edit', $category->id) }}" class="text-info">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </a>
                                 </td>
                                 <td>
                                     <a href="{{ route('category.delete', $category->id) }}" class="text-danger">
