@@ -62,7 +62,7 @@ class ActualityController extends Controller
     public function index($category_id = null)
     {
         if ($category_id == null) {
-            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname', 'users.avatar', 'users.id as user_id')
+            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.id', 'actualities.message', 'actualities.image', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname', 'users.avatar', 'users.id as user_id')
                 ->join('users', 'users.id', '=', 'actualities.user_id')
                 ->join('categories', 'categories.id', '=', 'actualities.category_id')
                 ->join('preferences', 'preferences.category_id', '=', 'categories.id')
@@ -71,7 +71,7 @@ class ActualityController extends Controller
                 ->orderBy('actualities.created_at', 'desc')
                 ->paginate(15);
         } else {
-            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.id', 'actualities.message', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname', 'users.avatar', 'users.id as user_id')
+            $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.id', 'actualities.message', 'actualities.image', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname', 'users.avatar', 'users.id as user_id')
                 ->join('users', 'users.id', '=', 'actualities.user_id')
                 ->join('categories', 'categories.id', '=', 'actualities.category_id')
                 ->where('categories.id', $category_id)
@@ -128,13 +128,22 @@ class ActualityController extends Controller
         $this->validate($request, [
             'category_id' => 'required|exists:categories,id',
             'message' => 'required',
+            'image' => 'image',
         ]);
 
-        Actuality::create([
+        $actuality = Actuality::create([
             'category_id' => $request->get('category_id'),
             'message' => $request->get('message'),
             'user_id' => Auth::user()->id,
+            'image' => 0,
         ]);
+
+
+        if ($request->exists('image')) {
+            $actuality->update([
+                'image' => $request->image,
+            ]);
+        }
 
         $category = Category::findOrFail($request->get('category_id'));
 
@@ -164,16 +173,24 @@ class ActualityController extends Controller
     {
         $this->validate($request, [
             'content' => 'required',
+            'image' => 'image',
         ]);
 
-        $actuality = Actuality::findOrFail($actuality_id);
+        $parentActuality = Actuality::findOrFail($actuality_id);
 
-        Actuality::create([
-            'category_id' => $actuality->category_id,
+        $actuality = Actuality::create([
+            'category_id' => $parentActuality->category_id,
             'user_id' => Auth::user()->id,
             'actuality_id' => $actuality_id,
             'message' => $request->get('content'),
+            'image' => 0,
         ]);
+
+        if ($request->exists('image')) {
+            $actuality->update([
+                'image' => $request->image,
+            ]);
+        }
 
         return Redirect::to(route('actuality.index') . '#' . $actuality_id);
     }
