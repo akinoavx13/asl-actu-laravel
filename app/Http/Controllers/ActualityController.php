@@ -29,7 +29,7 @@ class ActualityController extends Controller
 
     public static function routes($router)
     {
-        $router->pattern('category_id', '[0-5]+');
+        $router->pattern('category_id', '[0-9]+');
 
         $router->pattern('actuality_id', '[0-9]+');
 
