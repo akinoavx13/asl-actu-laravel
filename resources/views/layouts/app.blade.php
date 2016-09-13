@@ -50,7 +50,7 @@
     <footer class="footer">
         <div class="container">
             <p class="text-muted text-center">
-                <a href="http://maxime.maheo.free.fr">Créer par Maxime MAHEO</a>
+                <a href="http://maxime.maheo.free.fr">Créé par Maxime MAHEO</a>
             </p>
         </div>
     </footer>
