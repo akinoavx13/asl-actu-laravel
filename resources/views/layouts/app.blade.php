@@ -47,6 +47,14 @@
 
     </div>
 
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted text-center">
+                <a href="http://maxime.maheo.free.fr">Créer par Maxime MAHEO</a>
+            </p>
+        </div>
+    </footer>
+
 </div>
 
 <script src="{{ asset('js/app.min.js') }}"></script>

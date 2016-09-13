@@ -12,7 +12,8 @@
 */
 
 use App\Http\Controllers\ActualityController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ApiActualitiesController;
+use App\Http\Controllers\ApiAuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PreferenceController;
 use App\Http\Controllers\UserController;
@@ -38,7 +39,11 @@ Route::group(['prefix' => 'users', 'middleware' => ['auth']], function () use ($
 Route::group(['prefix' => 'api'], function () use ($router) {
 
     Route::group(['prefix' => 'auth'], function () use ($router) {
-        AuthController::routes($router);
+        ApiAuthController::routes($router);
+    });
+
+    Route::group(['prefix' => 'actualities'], function () use ($router) {
+        ApiActualitiesController::routes($router);
     });
 
 });
