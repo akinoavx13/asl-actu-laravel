@@ -18,7 +18,9 @@ class AuthController extends Controller
         }
 
         if (Auth::attempt(['email' => $email, 'password' => $password])) {
-            return $this->response(200, Auth::user()->api_token);
+            return $this->response(200, [
+                "api_token" => Auth::user()->api_token,
+            ]);
         } else {
             return $this->response(401, "Email ou mot de passe incorrect.");
         }
