@@ -11,4 +11,12 @@ use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
+
+    protected function response($statusCode, $data, $message = null)
+    {
+        return response()->json([
+            'data'    => $data,
+            'message' => $message,
+        ], $statusCode);
+    }
 }
