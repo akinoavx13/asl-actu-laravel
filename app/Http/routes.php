@@ -36,14 +36,12 @@ Route::group(['prefix' => 'users', 'middleware' => ['auth']], function () use ($
     UserController::routes($router);
 });
 
-Route::group(['prefix' => 'api'], function () use ($router) {
-
-    Route::group(['prefix' => 'auth'], function () use ($router) {
-        ApiAuthController::routes($router);
+Route::group(['prefix' => 'api', 'middleware' => 'auth:api'], function () use ($router) {
+    Route::group(['prefix' => 'actualities'], function () {
+        Route::get('', 'ApiActualitiesController@index');
     });
 
-    Route::group(['prefix' => 'actualities'], function () use ($router) {
-        ApiActualitiesController::routes($router);
+    Route::group(['prefix' => 'categories'], function () {
+        Route::get('', 'ApiCategoriesController@index');
     });
-
 });

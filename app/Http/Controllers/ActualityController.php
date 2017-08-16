@@ -75,6 +75,8 @@ class ActualityController extends Controller
                 ->whereNull('actualities.actuality_id')
                 ->where('preferences.user_id', Auth::user()->id)
                 ->orderBy('actualities.created_at', 'desc')
+                ->with('likes')
+                ->with('comments')
                 ->paginate(15);
         } else {
             $actualities = Actuality::select('actualities.created_at', 'actualities.actuality_id', 'actualities.id', 'actualities.message', 'actualities.image', 'categories.name as category', 'categories.color as color', 'users.name', 'users.forname', 'users.avatar', 'users.id as user_id')
@@ -83,6 +85,8 @@ class ActualityController extends Controller
                 ->where('categories.id', $category_id)
                 ->whereNull('actualities.actuality_id')
                 ->orderBy('actualities.created_at', 'desc')
+                ->with('likes')
+                ->with('comments')
                 ->paginate(15);
         }
 
