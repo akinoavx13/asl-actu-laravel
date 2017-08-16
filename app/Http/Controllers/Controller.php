@@ -12,11 +12,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
 
-    protected function response($statusCode, $data, $message = null)
+    protected function response($statusCode, $data)
     {
-        return response()->json([
-            'data'    => $data,
-            'message' => $message,
-        ], $statusCode);
+        return response()->json($data, $statusCode);
     }
 }
