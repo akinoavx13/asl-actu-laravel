@@ -36,6 +36,10 @@ Route::group(['prefix' => 'users', 'middleware' => ['auth']], function () use ($
     UserController::routes($router);
 });
 
+Route::group(['prefix' => 'api', 'middleware' => 'api'], function () use ($router) {
+    Route::post('login', 'AuthController@login');
+});
+
 Route::group(['prefix' => 'api', 'middleware' => 'auth:api'], function () use ($router) {
     Route::group(['prefix' => 'actualities'], function () {
         Route::get('', 'ApiActualitiesController@index');
