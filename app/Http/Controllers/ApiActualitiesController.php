@@ -32,7 +32,8 @@ class ApiActualitiesController extends Controller
             ->where('preferences.user_id', Auth::guard('api')->user()->id)
             ->orderBy('actualities.created_at', 'desc')
             ->with('likes')
-            ->with('comments')
+            ->with('comments.user')
+            ->with('comments.likes')
             ->get();
 
         return $this->response(200, $actualities);
