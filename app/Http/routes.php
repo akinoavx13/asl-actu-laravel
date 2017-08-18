@@ -41,12 +41,11 @@ Route::group(['prefix' => 'api', 'middleware' => 'api'], function () use ($route
 });
 
 Route::group(['prefix' => 'api', 'middleware' => 'auth:api'], function () use ($router) {
-    Route::group(['prefix' => 'actualities'], function () {
-        Route::get('', 'ApiActualitiesController@index');
-        Route::post('', 'ApiActualitiesController@store');
-    });
+    Route::get('/actualities', 'ApiActualitiesController@index');
+    Route::post('/actuality', 'ApiActualitiesController@store');
 
-    Route::group(['prefix' => 'categories'], function () {
-        Route::get('', 'ApiCategoriesController@index');
-    });
+    Route::get('/categories', 'ApiCategoriesController@index');
+
+    Route::post('/comment', 'ApiCommentsController@store');
+
 });
