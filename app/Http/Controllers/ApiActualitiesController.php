@@ -6,6 +6,7 @@ use App\Actuality;
 use App\Category;
 use App\Preference;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Response;
 
@@ -37,5 +38,23 @@ class ApiActualitiesController extends Controller
             ->get();
 
         return $this->response(200, $actualities);
+    }
+
+    public function store(Request $request)
+    {
+
+        $this->validate($request, [
+            'category_id' => 'required|exists:categories,id',
+            'message' => 'required',
+        ]);
+
+        $actuality = Actuality::create([
+            'category_id' => $request->get('category_id'),
+            'message' => $request->get('message'),
+            'user_id' => Auth::guard('api')->user()->id,
+            'image' => 0,
+        ]);
+
+        return $this->response(200, $actuality);
     }
 }
