@@ -45,7 +45,7 @@ class ApiCategoriesController extends Controller
         return $this->response(200, $categories);
     }
 
-    public function feeds($category_id) {
+    public function actualities($category_id) {
         $actualities = Actuality::select(
             'users.forname',
             'users.name',
