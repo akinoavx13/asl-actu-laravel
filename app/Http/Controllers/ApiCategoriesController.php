@@ -44,4 +44,32 @@ class ApiCategoriesController extends Controller
 
         return $this->response(200, $categories);
     }
+
+    public function feeds($category_id) {
+        $actualities = Actuality::select(
+            'users.forname',
+            'users.name',
+            'categories.name as category_name',
+            'categories.color as category_color',
+            'actualities.message',
+            'actualities.created_at',
+            'actualities.id',
+            'actualities.image',
+            'users.avatar',
+            'users.id as userId'
+        )
+            ->join('users', 'users.id', '=', 'actualities.user_id')
+            ->join('categories', 'categories.id', '=', 'actualities.category_id')
+            ->join('preferences', 'preferences.category_id', '=', 'categories.id')
+            ->where('categories.id', $category_id)
+            ->whereNull('actualities.actuality_id')
+            ->where('preferences.user_id', Auth::guard('api')->user()->id)
+            ->orderBy('actualities.created_at', 'desc')
+            ->with('likes')
+            ->with('comments.user')
+            ->with('comments.likes')
+            ->get();
+
+        return $this->response(200, $actualities);
+    }
 }
