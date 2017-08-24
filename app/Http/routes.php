@@ -38,6 +38,8 @@ Route::group(['prefix' => 'users', 'middleware' => ['auth']], function () use ($
 
 Route::group(['prefix' => 'api', 'middleware' => 'api'], function () use ($router) {
     Route::post('login', 'AuthController@login');
+
+    Route::post('/token', 'ApiDevicesTokenController@store');
 });
 
 Route::group(['prefix' => 'api', 'middleware' => 'auth:api'], function () use ($router) {
@@ -49,3 +51,4 @@ Route::group(['prefix' => 'api', 'middleware' => 'auth:api'], function () use ($
 
     Route::post('/comment', 'ApiCommentsController@store');
 });
+
