@@ -48,4 +48,6 @@ Route::group(['prefix' => 'api', 'middleware' => 'auth:api'], function () use ($
     Route::get('/category/{id}/actualities', 'ApiCategoriesController@actualities');
 
     Route::post('/comment', 'ApiCommentsController@store');
+
+    Route::post('/token', 'ApiDevicesTokenController@store');
 });
