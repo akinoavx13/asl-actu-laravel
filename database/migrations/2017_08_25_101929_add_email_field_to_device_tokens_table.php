@@ -14,7 +14,7 @@ class AddEmailFieldToDeviceTokensTable extends Migration
     public function up()
     {
         Schema::table('device_tokens', function (Blueprint $table) {
-            $table->string('email')->unique();
+            $table->string('email');
         });
     }
 
