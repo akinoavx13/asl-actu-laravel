@@ -12,6 +12,6 @@ class DeviceToken extends Model
      * @var array
      */
     protected $fillable = [
-        'token', 'platform',
+        'token', 'platform', 'email'
     ];
 }
