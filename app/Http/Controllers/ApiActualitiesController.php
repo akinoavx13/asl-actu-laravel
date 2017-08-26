@@ -6,6 +6,7 @@ use App\Actuality;
 use App\Category;
 use App\Preference;
 use App\User;
+use App\Utilities\CustomMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Response;
@@ -45,16 +46,18 @@ class ApiActualitiesController extends Controller
 
         $this->validate($request, [
             'category_id' => 'required|exists:categories,id',
-            'message' => 'required',
+            'message'     => 'required',
         ]);
 
         $actuality = Actuality::create([
             'category_id' => $request->get('category_id'),
-            'message' => $request->get('message'),
-            'user_id' => Auth::guard('api')->user()->id,
-            'image' => 0,
+            'message'     => $request->get('message'),
+            'user_id'     => Auth::guard('api')->user()->id,
+            'image'       => 0,
         ]);
 
+        CustomMail::actualityCreated($request->get('category_id'), $request->get('message'));
+        
         return $this->response(200, $actuality);
     }
 }
