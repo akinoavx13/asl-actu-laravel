@@ -7,6 +7,7 @@ use App\Category;
 use App\Preference;
 use App\User;
 use App\Utilities\CustomMail;
+use App\Utilities\CustomNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Response;
@@ -56,8 +57,9 @@ class ApiActualitiesController extends Controller
             'image'       => 0,
         ]);
 
-        CustomMail::actualityCreated($request->get('category_id'), $request->get('message'));
-        
+        CustomMail::actualityCreatedPreferences($request->get('category_id'), $request->get('message'));
+        CustomNotification::actualityCreatedPreferences(Auth::guard('api')->user(), $actuality);
+
         return $this->response(200, $actuality);
     }
 }

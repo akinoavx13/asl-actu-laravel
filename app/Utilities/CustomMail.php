@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Mail;
 class CustomMail
 {
 
-    public static function actualityCreated($category_id, $message)
+    public static function actualityCreatedPreferences($category_id, $message)
     {
         $category = Category::findOrFail($category_id);
 
