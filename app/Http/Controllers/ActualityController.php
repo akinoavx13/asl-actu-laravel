@@ -7,6 +7,8 @@ use App\Category;
 use App\Like;
 use App\Preference;
 use App\User;
+use App\Utilities\CustomMail;
+use App\Utilities\CustomNotification;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -155,26 +157,8 @@ class ActualityController extends Controller
             ]);
         }
 
-        $category = Category::findOrFail($request->get('category_id'));
-
-        $usersForNewsletter = User::select('users.email', 'users.forname', 'users.name')
-            ->join('preferences', 'preferences.user_id', '=', 'users.id')
-            ->where('users.newsletter', 1)
-            ->where('preferences.category_id', $request->get('category_id'))
-            ->get()
-            ->chunk(45)
-            ->toArray();
-
-        foreach ($usersForNewsletter as $group) {
-            foreach ($group as $user) {
-
-                Mail::send('emails.actu', ['user' => $user, 'writer' => Auth::user(), 'content' => $request->get('message'), 'categoryName' => $category->name], function ($message) use ($user) {
-                    $message->from('contact@aslectra.com', 'ACTU ASLectra');
-
-                    $message->to($user['email'], $user['forname'])->subject('Nouvelle actualité ASLectra');
-                });
-            }
-        }
+        CustomMail::actualityCreatedPreferences($request->get('category_id'), $request->get('message'));
+        CustomNotification::actualityCreatedPreferences(Auth::user(), $actuality);
 
         return redirect()->route('actuality.index')->with('success', 'Actualité créée');
     }
