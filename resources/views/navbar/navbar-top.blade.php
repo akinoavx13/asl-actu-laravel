@@ -49,7 +49,7 @@
                             Préférences
                         </a>
                     </li>
-                    <li style="{{ Request::is('preferences/create') ? 'background: #0273A3;' : '' }} ">
+                    <li>
                         <a href="http://www.aslectra.com#sections"
                            style="color: #ffffff; height: 80px; line-height: 80px; padding-top: 0; padding-bottom: 0; font-size: 14px; text-transform: uppercase;">
                             ASLectra
